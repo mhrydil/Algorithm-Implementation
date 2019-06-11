@@ -35,7 +35,7 @@ public class DLBNode<V> implements TrieNodeInt<V>
     // that character.
     public TrieNodeInt<V> getNextNode(char c){
 
-        if (c >= 122 || c <= 97){
+        if (c < 97 || c > 122){
             throw new IllegalArgumentException("Please enter a lowercase character");
         }
 
@@ -56,7 +56,7 @@ public class DLBNode<V> implements TrieNodeInt<V>
     // branching by one more link).
     public void setNextNode(char c, TrieNodeInt<V> node){
 
-        if (c >= 122 || c <= 97){
+        if (c < 97 || c > 122){
             throw new IllegalArgumentException("Please enter a lowercase character");
         }
 

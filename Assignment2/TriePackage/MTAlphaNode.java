@@ -34,7 +34,7 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
         next = (TrieNodeInt<V>[]) new TrieNodeInt<?>[R];
         DLBNode.Nodelet temp = oldNode.front;
         while(temp != null){
-            next[temp.cval] = temp.child;
+            next[temp.cval-97] = temp.child;
             temp = temp.rightSib;
         }
     }
@@ -43,7 +43,7 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
     // c in the current node, or null if there is not next node for
     // that character.
     public TrieNodeInt<V> getNextNode(char c){
-        if (c >= 122 || c <= 97){
+        if (c < 97 || c > 122){
             throw new IllegalArgumentException("Please enter a lowercase character");
         }
 	    return next[c-97];
@@ -56,7 +56,7 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
     // branching by one more link).
     public void setNextNode(char c, TrieNodeInt<V> node)
     {
-	    if (c >= 122 || c <= 97){
+	    if (c < 97 || c > 122){
             throw new IllegalArgumentException("Please enter a lowercase character");
         }
 	    if(next[c-97] == null){

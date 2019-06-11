@@ -69,7 +69,7 @@ public class HybridTrieTest
 				System.out.println(tests[i] + " is not in the dictionary");
 		}
 		System.out.println();
-		System.out.println("Testing searchPrefix() method:");
+		/*System.out.println("Testing searchPrefix() method:");
 		for (int i = 0; i < tests.length; i++)
 		{
 			int ans = D.searchPrefix(tests[i]);
@@ -146,6 +146,7 @@ public class HybridTrieTest
 		// through all of the values in the trie in alpha order, saving all of them
 		// to the file name provided in args[1].
 		D.save(args[1]);
+		*/
 	}
 }
 
