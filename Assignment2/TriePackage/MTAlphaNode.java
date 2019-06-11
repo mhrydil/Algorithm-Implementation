@@ -7,7 +7,7 @@
 package TriePackage;
 
 import java.util.*;
-public class MTAlphaNode<V> implements TrieNodeInt<V>
+public class MTAlphaNode<V>  implements TrieNodeInt<V>
 {
 	private static final int R = 26;	// 26 letters in
 										// alphabet
@@ -31,15 +31,22 @@ public class MTAlphaNode<V> implements TrieNodeInt<V>
     public MTAlphaNode(DLBNode<V> oldNode){
 	    val = oldNode.getData();
 	    degree = oldNode.getDegree();
-
-
+        next = (TrieNodeInt<V>[]) new TrieNodeInt<?>[R];
+        DLBNode.Nodelet temp = oldNode.front;
+        while(temp != null){
+            next[temp.cval] = temp.child;
+            temp = temp.rightSib;
+        }
     }
 
     // Return the next node in the trie corresponding to character
     // c in the current node, or null if there is not next node for
     // that character.
     public TrieNodeInt<V> getNextNode(char c){
-	    return next[c-65];
+        if (c >= 122 || c <= 97){
+            throw new IllegalArgumentException("Please enter a lowercase character");
+        }
+	    return next[c-97];
 
     }
 
@@ -47,11 +54,15 @@ public class MTAlphaNode<V> implements TrieNodeInt<V>
     // to the argument node.  If the node at that position was previously
     // null, increase the degree of this node by one (since it is now
     // branching by one more link).
-    public void setNextNode(char c, TrieNodeInt<V> node){
-	    if(next[c-65] == null){
+    public void setNextNode(char c, TrieNodeInt<V> node)
+    {
+	    if (c >= 122 || c <= 97){
+            throw new IllegalArgumentException("Please enter a lowercase character");
+        }
+	    if(next[c-97] == null){
 	        degree++;
         }
-        next[c-65] = node;
+        next[c-97] = node;
     }
 
     // Return the data at the current node (or null if there is no data)

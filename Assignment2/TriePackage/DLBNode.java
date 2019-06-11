@@ -34,6 +34,11 @@ public class DLBNode<V> implements TrieNodeInt<V>
     // c in the current node, or null if there is not next node for
     // that character.
     public TrieNodeInt<V> getNextNode(char c){
+
+        if (c >= 122 || c <= 97){
+            throw new IllegalArgumentException("Please enter a lowercase character");
+        }
+
         Nodelet temp = front;
         while(temp != null){
             if (temp.cval == c) {
@@ -50,6 +55,11 @@ public class DLBNode<V> implements TrieNodeInt<V>
     // null, increase the degree of this node by one (since it is now
     // branching by one more link).
     public void setNextNode(char c, TrieNodeInt<V> node){
+
+        if (c >= 122 || c <= 97){
+            throw new IllegalArgumentException("Please enter a lowercase character");
+        }
+
         if (front == null){
             front = new Nodelet();
             front.cval = c;
@@ -61,7 +71,7 @@ public class DLBNode<V> implements TrieNodeInt<V>
             while (temp.rightSib != null && temp.rightSib.cval < c) {
                 temp = temp.rightSib;
             }
-            if(temp.cval == c){
+            if(temp.cval == c){ //if there is already a node at that character
                 temp.child = node;
             }
             else if(temp.rightSib == null || temp.rightSib.cval != c){
