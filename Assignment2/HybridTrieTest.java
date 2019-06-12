@@ -69,7 +69,7 @@ public class HybridTrieTest
 				System.out.println(tests[i] + " is not in the dictionary");
 		}
 		System.out.println();
-		/*System.out.println("Testing searchPrefix() method:");
+		System.out.println("Testing searchPrefix() method:");
 		for (int i = 0; i < tests.length; i++)
 		{
 			int ans = D.searchPrefix(tests[i]);
@@ -84,7 +84,7 @@ public class HybridTrieTest
 					break;
 				case 3: System.out.println("a word and prefix");
 			}
-		}	
+		}
 		System.out.println();
 		
 		System.out.println("Adding some new words...");
@@ -101,7 +101,7 @@ public class HybridTrieTest
 		// This method will traverse through all of the nodes in the trie, 
 		// utilizing the getSize() method for each node in order to get the overall
 		// size of the trie.
-		System.out.println("Size of the Trie is " + D.getSize() + " bytes");
+		/*System.out.println("Size of the Trie is " + D.getSize() + " bytes");
 		System.out.println();
 		
 		// The degreeDistribution() method should traverse the trie and return an 

@@ -19,13 +19,11 @@ public class DLBNode<V> implements TrieNodeInt<V>
     }
 
     public DLBNode(){
-        front = new Nodelet();
         val = null;
         degree = 0;
     }
 
     public DLBNode(V data){
-        front = new Nodelet();
         val = data;
         degree = 0;
     }
@@ -60,30 +58,38 @@ public class DLBNode<V> implements TrieNodeInt<V>
             throw new IllegalArgumentException("Please enter a lowercase character");
         }
 
-        if (front == null){
+        if (front == null){ // if the node was empty
             front = new Nodelet();
             front.cval = c;
             front.child = node;
+            front.rightSib = null;
             degree++;
         }
         else {
-            Nodelet temp = front;
-            while (temp.rightSib != null && temp.rightSib.cval < c) {
-                temp = temp.rightSib;
-            }
-            if(temp.cval == c){ //if there is already a node at that character
-                temp.child = node;
-            }
-            else if(temp.rightSib == null || temp.rightSib.cval != c){
-                Nodelet nextNode = temp.rightSib;
-                temp.rightSib = new Nodelet();
-                temp.rightSib.cval = c;
-                temp.rightSib.child = node;
-                temp.rightSib.rightSib = nextNode;
+            if (c < front.cval){ //if the new nodelet should be the first nodelet(if it's the lowest character)
+                Nodelet nextNodelet = front;
+                front = new Nodelet();
+                front.cval = c;
+                front.child = node;
+                front.rightSib = nextNodelet;
                 degree++;
             }
-            else{ // if (temp.rightSib.cval == c)
-                temp.rightSib.child = node;
+            else { //the new nodelet does not belong at the front
+                Nodelet curr = front;
+                while (curr.rightSib != null && c > curr.rightSib.cval) { //this is where the new node belongs
+                    curr = curr.rightSib;
+                }
+                if(curr.cval == c){ //if there is already a node at that character
+                    curr.child = node;
+                }
+                else{
+                    Nodelet nextNodelet = curr.rightSib;
+                    curr = new Nodelet();
+                    degree++;
+                    curr.cval = c;
+                    curr.child = node;
+                    curr.rightSib = nextNodelet;
+                }
             }
         }
 

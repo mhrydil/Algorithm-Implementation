@@ -33,8 +33,9 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
 	    degree = oldNode.getDegree();
         next = (TrieNodeInt<V>[]) new TrieNodeInt<?>[R];
         DLBNode.Nodelet temp = oldNode.front;
-        while(temp != null){
-            next[temp.cval-97] = temp.child;
+        while (temp != null)
+        {
+            next[temp.cval - 97] = temp.child;
             temp = temp.rightSib;
         }
     }
