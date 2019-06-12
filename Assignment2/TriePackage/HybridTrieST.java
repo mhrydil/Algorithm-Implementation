@@ -123,6 +123,50 @@ public class HybridTrieST<V> {
         return size;
     }
 
+    public int[] degreeDistribution(){
+        int[] distribution = new int[27];
+        degreeDistribution(root, distribution);
+        return distribution;
+    }
+
+    private void degreeDistribution(TrieNodeInt root, int[] dist){
+        dist[root.getDegree()]++;
+        Iterable<TrieNodeInt<V>> iter = root.children();
+        for(TrieNodeInt child : iter){
+            degreeDistribution(child, dist);
+        }
+    }
+
+    public int countNodes(int type){
+        if (type == 1){ //counting MTAlphaNodes
+            return countAlpha(root);
+        }
+
+        else{
+            return countDLB(root);
+        }
+    }
+
+    private int countAlpha(TrieNodeInt root){
+        int count = 0;
+        if(root instanceof MTAlphaNode) count++;
+        Iterable<TrieNodeInt<V>> iter = root.children();
+        for(TrieNodeInt<V> child : iter){
+            count += countAlpha(child);
+        }
+        return count;
+    }
+
+    private int countDLB(TrieNodeInt root){
+        int count = 0;
+        if(root instanceof DLBNode) count++;
+        Iterable<TrieNodeInt<V>> iter = root.children();
+        for(TrieNodeInt<V> child : iter){
+            count += countDLB(child);
+        }
+        return count;
+    }
+
     	// treeType = 0 --> multiway trie
     	// treeType = 1 --> DLB
     	// treeType = 2 --> hybrid

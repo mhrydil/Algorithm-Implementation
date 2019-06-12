@@ -103,7 +103,7 @@ public class HybridTrieTest
 		// size of the trie.
 		System.out.println("Size of the Trie is " + D.getSize() + " bytes");
 		System.out.println();
-		/*
+
 		// The degreeDistribution() method should traverse the trie and return an 
 		// int [] of size K+1 (where K is the maximum possible degree of a node in
 		// the trie), indexed from 0 to K.  The value of each location dist[i] will
@@ -121,7 +121,7 @@ public class HybridTrieTest
 		System.out.println();
 		System.out.println("There were a total of " + total + " nodes in the trie");
 		System.out.println();
-		
+
 		// Count the number of nodes of a given type. For this method we are using the
 		// value 1 to indicate MTAlphaNode<?> nodes and the value 2 to indicated DLBNode<?>
 		// nodes.  The actual method will traverse all of the nodes of the trie and use
@@ -140,7 +140,7 @@ public class HybridTrieTest
 		nodes = D.countNodes(2);  // number of DLBNode<?> Nodes
 		System.out.println("The trie contains " + nodes + " DLBNodes");
 		System.out.println();
-		
+		/*
 		System.out.println("Saving trie back to a file (should be alpha)");
 		// Save the trie in order back to args[1].  This method will traverse
 		// through all of the values in the trie in alpha order, saving all of them

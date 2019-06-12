@@ -49,7 +49,6 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
             throw new IllegalArgumentException("Please enter a lowercase character");
         }
 	    return next[c-97];
-
     }
 
     // Set the next node in the trie corresponding to character char
