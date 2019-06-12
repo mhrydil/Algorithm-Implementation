@@ -28,16 +28,17 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
 	    next = (TrieNodeInt<V>[]) new TrieNodeInt<?>[R];
     }
 
-    public MTAlphaNode(DLBNode<V> oldNode){
-	    val = oldNode.getData();
-	    degree = oldNode.getDegree();
+    public MTAlphaNode(DLBNode<V> oldNode) {
+        val = oldNode.getData();
+        degree = oldNode.getDegree();
         next = (TrieNodeInt<V>[]) new TrieNodeInt<?>[R];
         DLBNode.Nodelet temp = oldNode.front;
-        while (temp != null)
-        {
+        while (temp != null) {
             next[temp.cval - 97] = temp.child;
+            //System.out.print(temp.cval); //for testing purposes
             temp = temp.rightSib;
         }
+        //System.out.println();//for testing purposes
     }
 
     // Return the next node in the trie corresponding to character
@@ -105,7 +106,7 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
     // This method will allow us to access all of the children of a node without
     // having to know how the node is actually implemented.
     public Iterable<TrieNodeInt<V>> children(){
-	    Queue<TrieNodeInt<V>> iterableQueue = new PriorityQueue<>();
+	    Queue<TrieNodeInt<V>> iterableQueue = new LinkedList<>();
 	    for (int i=0; i<R; i++){
 	        if (next[i] != null){
 	            iterableQueue.add(next[i]);

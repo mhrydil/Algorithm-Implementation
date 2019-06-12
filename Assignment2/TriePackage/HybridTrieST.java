@@ -54,11 +54,12 @@ public class HybridTrieST<V> {
                 x.setData(val);
                 return x;
             }
-            if (x instanceof DLBNode<?> && x.getDegree() > 11){
-                x = new MTAlphaNode<>((DLBNode<V>)x);
-            }
+
             char c = key.charAt(d);
             x.setNextNode(c, put(x.getNextNode(c), key, val, d+1));
+            if (x instanceof DLBNode<?> && x.getDegree() == 12){
+                x = new MTAlphaNode<>((DLBNode<V>)x);
+            }
             return x;
         }
     }
@@ -106,7 +107,20 @@ public class HybridTrieST<V> {
             }
         }
         return ans;
+    }
 
+    public int getSize(){
+        return getSize(root);
+    }
+
+    private int getSize(TrieNodeInt root){
+        int size = 0;
+        size = root.getSize();
+        Iterable<TrieNodeInt<V>> iter = root.children();
+        for(TrieNodeInt<V> child : iter){
+            size += getSize(child);
+        }
+        return size;
     }
 
     	// treeType = 0 --> multiway trie

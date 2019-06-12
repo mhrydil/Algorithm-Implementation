@@ -101,9 +101,9 @@ public class HybridTrieTest
 		// This method will traverse through all of the nodes in the trie, 
 		// utilizing the getSize() method for each node in order to get the overall
 		// size of the trie.
-		/*System.out.println("Size of the Trie is " + D.getSize() + " bytes");
+		System.out.println("Size of the Trie is " + D.getSize() + " bytes");
 		System.out.println();
-		
+		/*
 		// The degreeDistribution() method should traverse the trie and return an 
 		// int [] of size K+1 (where K is the maximum possible degree of a node in
 		// the trie), indexed from 0 to K.  The value of each location dist[i] will

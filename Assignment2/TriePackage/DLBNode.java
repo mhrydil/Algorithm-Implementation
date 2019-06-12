@@ -7,9 +7,9 @@ package TriePackage;
 import java.util.*;
 public class DLBNode<V> implements TrieNodeInt<V>
 {
-    protected Nodelet front;
-    protected int degree;
-	protected V val;
+    protected Nodelet front; //reference - 4 bytes
+    protected int degree; //int - 4 bytes
+	protected V val; //reference - 4 bytes
 	
     protected class Nodelet
     {
@@ -76,7 +76,7 @@ public class DLBNode<V> implements TrieNodeInt<V>
             }
             else { //the new nodelet does not belong at the front
                 Nodelet curr = front;
-                while (curr.rightSib != null && c > curr.rightSib.cval) { //this is where the new node belongs
+                while (curr.rightSib != null && c >= curr.rightSib.cval) { //this is where the new node belongs
                     curr = curr.rightSib;
                 }
                 if(curr.cval == c){ //if there is already a node at that character
@@ -84,11 +84,12 @@ public class DLBNode<V> implements TrieNodeInt<V>
                 }
                 else{
                     Nodelet nextNodelet = curr.rightSib;
-                    curr = new Nodelet();
+                    Nodelet newNodelet = new Nodelet();
                     degree++;
-                    curr.cval = c;
-                    curr.child = node;
-                    curr.rightSib = nextNodelet;
+                    newNodelet.cval = c;
+                    newNodelet.child = node;
+                    newNodelet.rightSib = nextNodelet;
+                    curr.rightSib = newNodelet;
                 }
             }
         }
@@ -141,7 +142,7 @@ public class DLBNode<V> implements TrieNodeInt<V>
     // This method will allow us to access all of the children of a node without
     // having to know how the node is actually implemented.
     public Iterable<TrieNodeInt<V>> children(){
-        Queue<TrieNodeInt<V>> iterableQueue = new PriorityQueue<>();
+        Queue<TrieNodeInt<V>> iterableQueue = new LinkedList<>();
         Nodelet temp = front;
         while (temp != null){
             iterableQueue.add(temp.child);
