@@ -10,6 +10,7 @@ public class HybridTrieST<V> {
 
     private TrieNodeInt<V> root;
     int treeType = 0;
+    private PrintWriter output;
 
     public HybridTrieST(int type)
     {
@@ -149,7 +150,7 @@ public class HybridTrieST<V> {
 
     private int countAlpha(TrieNodeInt root){
         int count = 0;
-        if(root instanceof MTAlphaNode) count++;
+        if(root instanceof MTAlphaNode<?>) count++;
         Iterable<TrieNodeInt<V>> iter = root.children();
         for(TrieNodeInt<V> child : iter){
             count += countAlpha(child);
@@ -159,12 +160,30 @@ public class HybridTrieST<V> {
 
     private int countDLB(TrieNodeInt root){
         int count = 0;
-        if(root instanceof DLBNode) count++;
+        if(root instanceof DLBNode<?>) count++;
         Iterable<TrieNodeInt<V>> iter = root.children();
         for(TrieNodeInt<V> child : iter){
             count += countDLB(child);
         }
         return count;
+    }
+
+    public void save(String fileName) throws IOException
+    {
+        output = new PrintWriter(new FileWriter(fileName));
+        save(root);
+        output.close();
+    }
+
+    private void save(TrieNodeInt<V> root){
+        if(root.getData() != null){
+            output.println(root.getData());
+        }
+        Iterable<TrieNodeInt<V>> iter = root.children();
+        for(TrieNodeInt<V> child : iter){
+            save(child);
+        }
+
     }
 
     	// treeType = 0 --> multiway trie

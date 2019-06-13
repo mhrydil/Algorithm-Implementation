@@ -140,13 +140,13 @@ public class HybridTrieTest
 		nodes = D.countNodes(2);  // number of DLBNode<?> Nodes
 		System.out.println("The trie contains " + nodes + " DLBNodes");
 		System.out.println();
-		/*
+
 		System.out.println("Saving trie back to a file (should be alpha)");
 		// Save the trie in order back to args[1].  This method will traverse
 		// through all of the values in the trie in alpha order, saving all of them
 		// to the file name provided in args[1].
 		D.save(args[1]);
-		*/
+
 	}
 }
 
