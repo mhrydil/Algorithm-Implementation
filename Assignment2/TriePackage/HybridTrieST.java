@@ -29,7 +29,7 @@ public class HybridTrieST<V> {
 
     private TrieNodeInt<V> put(TrieNodeInt<V> x, String key, V val, int d)
     {
-        if (treeType == 0) {
+        if (treeType == 0) { // Trie contains only MTAlphaNodes
             if (x == null) x = new MTAlphaNode<V>();
             if (d == key.length()) {
                 x.setData(val);
@@ -39,7 +39,7 @@ public class HybridTrieST<V> {
             x.setNextNode(c, put(x.getNextNode(c), key, val, d + 1));
             return x;
         }
-        else if (treeType == 1){
+        else if (treeType == 1){ //Trie contains only DLBNodes
             if (x == null) x = new DLBNode<V>();
             if (d == key.length()) {
                 x.setData(val);
@@ -49,8 +49,8 @@ public class HybridTrieST<V> {
             x.setNextNode(c, put(x.getNextNode(c), key, val, d + 1));
             return x;
         }
-        else{// (treeType == 2){
-            if (x == null) x = new DLBNode<V>();
+        else{ // Trie contains both MTAlphaNodes and DLBNodes
+            if (x == null) x = new DLBNode<V>(); //originally, all new nodes are DLBNodes because their degree is <12
             if (d == key.length()) {
                 x.setData(val);
                 return x;
@@ -59,7 +59,7 @@ public class HybridTrieST<V> {
             char c = key.charAt(d);
             x.setNextNode(c, put(x.getNextNode(c), key, val, d+1));
             if (x instanceof DLBNode<?> && x.getDegree() == 12){
-                x = new MTAlphaNode<>((DLBNode<V>)x);
+                x = new MTAlphaNode<>((DLBNode<V>)x);  //change the node to an MTAlphaNode from DLBNode
             }
             return x;
         }
@@ -111,28 +111,28 @@ public class HybridTrieST<V> {
     }
 
     public int getSize(){
-        return getSize(root);
+        return getSize(root); //recursive method
     }
 
-    private int getSize(TrieNodeInt root){
+    private int getSize(TrieNodeInt root){ //recursive method
         int size = 0;
         size = root.getSize();
         Iterable<TrieNodeInt<V>> iter = root.children();
         for(TrieNodeInt<V> child : iter){
-            size += getSize(child);
+            size += getSize(child); //recursive call
         }
         return size;
     }
 
     public int[] degreeDistribution(){
         int[] distribution = new int[27];
-        degreeDistribution(root, distribution);
+        degreeDistribution(root, distribution); //recursive method
         return distribution;
     }
 
-    private void degreeDistribution(TrieNodeInt root, int[] dist){
+    private void degreeDistribution(TrieNodeInt root, int[] dist){ //recursive method
         dist[root.getDegree()]++;
-        Iterable<TrieNodeInt<V>> iter = root.children();
+        Iterable<TrieNodeInt<V>> iter = root.children(); //iterable allows us to iterate through the children of each node
         for(TrieNodeInt child : iter){
             degreeDistribution(child, dist);
         }
@@ -148,12 +148,12 @@ public class HybridTrieST<V> {
         }
     }
 
-    private int countAlpha(TrieNodeInt root){
+    private int countAlpha(TrieNodeInt root){ //recursive call
         int count = 0;
         if(root instanceof MTAlphaNode<?>) count++;
         Iterable<TrieNodeInt<V>> iter = root.children();
         for(TrieNodeInt<V> child : iter){
-            count += countAlpha(child);
+            count += countAlpha(child); //recursive call - adds to count the count of all this nodes children
         }
         return count;
     }
@@ -163,7 +163,7 @@ public class HybridTrieST<V> {
         if(root instanceof DLBNode<?>) count++;
         Iterable<TrieNodeInt<V>> iter = root.children();
         for(TrieNodeInt<V> child : iter){
-            count += countDLB(child);
+            count += countDLB(child); //recursive call - adds to count the count of all this nodes children
         }
         return count;
     }
@@ -177,11 +177,13 @@ public class HybridTrieST<V> {
 
     private void save(TrieNodeInt<V> root){
         if(root.getData() != null){
-            output.println(root.getData());
+            output.println(root.getData()); //if the current node has data, it gets added to the file
         }
         Iterable<TrieNodeInt<V>> iter = root.children();
         for(TrieNodeInt<V> child : iter){
-            save(child);
+            save(child); //recursive call for each child of the current node
+                            // because the nodes are all alphabetical, this is basically an in order traversal
+                            // so they are output in alphabetical order
         }
 
     }

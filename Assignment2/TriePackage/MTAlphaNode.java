@@ -16,6 +16,7 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
     protected TrieNodeInt<V> [] next; //Array of references
 	protected int degree; //primitive type - int is 4 bytes
 
+    //constructor for new MTAlphaNode
 	public MTAlphaNode() {
 	    val = null;
 	    next = (TrieNodeInt<V>[]) new TrieNodeInt<?>[R];
@@ -28,11 +29,15 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
 	    next = (TrieNodeInt<V>[]) new TrieNodeInt<?>[R];
     }
 
+    //constructor to make an MTAlphaNode from a DLBNode (Used when degree of DLBNode gets above 11)
     public MTAlphaNode(DLBNode<V> oldNode) {
         val = oldNode.getData();
         degree = oldNode.getDegree();
         next = (TrieNodeInt<V>[]) new TrieNodeInt<?>[R];
         DLBNode.Nodelet temp = oldNode.front;
+
+        //this while loop goes through each of the Nodelets from the oldNode and adds the child at that character to
+            // the next array
         while (temp != null) {
             next[temp.cval - 97] = temp.child;
             //System.out.print(temp.cval); //for testing purposes
@@ -48,7 +53,7 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
         if (c < 97 || c > 122){
             throw new IllegalArgumentException("Please enter a lowercase character");
         }
-	    return next[c-97];
+	    return next[c-97]; //if there is no child, this returns null
     }
 
     // Set the next node in the trie corresponding to character char
@@ -93,6 +98,7 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
     // approximation of this value but for our purposes, this approximation is
     // fine.
     public int getSize(){
+	    //every MTAlphaNode is the same size
 	    return (R*4)+8;
     }
 
@@ -104,6 +110,8 @@ public class MTAlphaNode<V>  implements TrieNodeInt<V>
     // Queue implements Iterable and maintains the order of the children).
     // This method will allow us to access all of the children of a node without
     // having to know how the node is actually implemented.
+
+    //Adds all of the references with children to a linkedList which is iterable.
     public Iterable<TrieNodeInt<V>> children(){
 	    Queue<TrieNodeInt<V>> iterableQueue = new LinkedList<>();
 	    for (int i=0; i<R; i++){

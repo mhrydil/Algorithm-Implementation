@@ -37,6 +37,8 @@ public class DLBNode<V> implements TrieNodeInt<V>
             throw new IllegalArgumentException("Please enter a lowercase character");
         }
 
+        //while loop iterates through all the nodelets until it finds that character or it reaches the end. Returns the
+        // child or null if it doesn't exist
         Nodelet temp = front;
         while(temp != null){
             if (temp.cval == c) {
@@ -125,7 +127,7 @@ public class DLBNode<V> implements TrieNodeInt<V>
     public int getSize(){
         int size = 12; //initial size is 12 bytes for the degree, value and front references.
         Nodelet temp = front;
-        while (temp != null){
+        while (temp != null){ //adds 9 bytes for each nodelet in the node
             size += 9;
             temp = temp.rightSib;
         }
