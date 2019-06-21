@@ -10,6 +10,7 @@
 # intelliJ files
 *.xml
 .idea/
+.iml
 
 # BlueJ files
 *.ctxt
