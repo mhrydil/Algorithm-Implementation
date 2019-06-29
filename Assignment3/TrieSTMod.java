@@ -130,4 +130,11 @@ public class TrieSTMod<Value>
 		}
 		return ans;
 	}
+
+	public void clear(){
+        for(int i=0; i<R; i++){
+            root.next[i] = null;
+        }
+
+    }
 }
