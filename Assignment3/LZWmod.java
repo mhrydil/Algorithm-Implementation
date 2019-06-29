@@ -36,13 +36,13 @@ public class LZWmod {
 
         currString.setLength(0);
         while(!done) {
-            if (currString.length() == 0) {
+            if (currString.length() == 0) { //the first time through this loop, add a character to the currString and continue
                 curr = input.read();
                 if (curr == -1) done = true;
                 else currString.append((char) curr);
             }
 
-            while (st.contains(currString) && !done) {
+            while (st.contains(currString) && !done) { //add characters to currString until currString is not in the symbol table
                 curr = input.read();
                 if (curr == -1) {
                     done = true;
@@ -55,15 +55,15 @@ public class LZWmod {
             } //when this while loop ends, we have a string with a new character
 
             if (code < L && !done) { //Keep filling the table
+                if (code == Math.pow(2, width)) width++;
                 st.put(currString, code++); //add new string to dictionary and increment code
                 currString.deleteCharAt(currString.length() - 1);
                 BinaryStdOut.write(st.get(currString), width);
-                if (code == Math.pow(2, width)) width++;
                 currString.setLength(0);
                 currString.append((char) curr);
             }
 
-            if (code == L){ //if the table is full, finish printing the output with the symbol table as it was
+            else if (code == L){ //if the table is full, finish printing the output with the symbol table as it was
                 while (!done){
 
                     while(st.contains(currString) && !done){
@@ -92,6 +92,7 @@ public class LZWmod {
 
     public static void expand() {
         String[] st = new String[L];
+        boolean full = false;
         int width = 9;
         int i; // next available codeword value
 
@@ -103,13 +104,13 @@ public class LZWmod {
         int codeword = BinaryStdIn.readInt(width);
         String val = st[codeword];
 
-        while (true) {
-            if(width<17 && i == Math.pow(2, width)-1){
+        while (!full) {
+            if(width<16 && i == Math.pow(2, width)-1){ //max width of the codewords should be 16 bits
                 width++;
             }
             BinaryStdOut.write(val);
 
-            if(i == Math.pow(2, width)-1) codeword = BinaryStdIn.readInt(width-1);
+            if(i == Math.pow(2, width)-1 && width != 16) codeword = BinaryStdIn.readInt(width-1);
             else codeword = BinaryStdIn.readInt(width);
             if (codeword == R) break;
 
@@ -120,9 +121,24 @@ public class LZWmod {
             if (i < L){
                 st[i] = val + s.charAt(0);
                 i++;
+                if (i == L) full = true;
             }
             val = s;
         }
+
+        while(true){ //in this loop, the table is full
+            BinaryStdOut.write(val);
+
+            codeword = BinaryStdIn.readInt(width);
+            if(codeword == R) break; // R is codeword for EOF
+
+            String s = st[codeword];
+            if (i == codeword){
+                s = val + val.charAt(0);
+            }
+            val = s;
+        }
+
         BinaryStdOut.close();
     }
 
