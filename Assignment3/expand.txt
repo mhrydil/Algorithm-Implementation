@@ -1,3 +1,0 @@
-Exception in thread "main" java.lang.NullPointerException
-	at LZWmod.expand(LZWmod.java:155)
-	at LZWmod.main(LZWmod.java:167)
