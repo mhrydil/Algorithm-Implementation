@@ -29,64 +29,64 @@ public class ImprovedChatClient extends JFrame implements Runnable, ActionListen
 
     public ImprovedChatClient ()
     {
-        try {
+            try
+            {
+                myName = JOptionPane.showInputDialog(this, "Enter your user name: ");
+                serverName = JOptionPane.showInputDialog(this, "Enter the server name: ");
+                InetAddress addr =
+                        InetAddress.getByName(serverName);
+                connection = new Socket(addr, PORT);   // Connect to server with new
+                                                       // Socket
+                myReader =
+                     new BufferedReader(
+                         new InputStreamReader(
+                             connection.getInputStream()));   // Get Reader and Writer
 
-        myName = JOptionPane.showInputDialog(this, "Enter your user name: ");
-        serverName = JOptionPane.showInputDialog(this, "Enter the server name: ");
-        InetAddress addr =
-                InetAddress.getByName(serverName);
-        connection = new Socket(addr, PORT);   // Connect to server with new
-                                               // Socket
-        myReader =
-             new BufferedReader(
-                 new InputStreamReader(
-                     connection.getInputStream()));   // Get Reader and Writer
+                myWriter =
+                     new PrintWriter(
+                         new BufferedWriter(
+                             new OutputStreamWriter(connection.getOutputStream())), true);
 
-        myWriter =
-             new PrintWriter(
-                 new BufferedWriter(
-                     new OutputStreamWriter(connection.getOutputStream())), true);
+                myWriter.println(myName);   // Send name to Server.  Server will need
+                                            // this to announce sign-on and sign-off
+                                            // of clients
 
-        myWriter.println(myName);   // Send name to Server.  Server will need
-                                    // this to announce sign-on and sign-off
-                                    // of clients
+                this.setTitle(myName);      // Set title to identify chatter
 
-        this.setTitle(myName);      // Set title to identify chatter
+                Box b = Box.createHorizontalBox();  // Set up graphical environment for
+                outputArea = new JTextArea(8, 30);  // user
+                outputArea.setEditable(false);
+                b.add(new JScrollPane(outputArea));
 
-        Box b = Box.createHorizontalBox();  // Set up graphical environment for
-        outputArea = new JTextArea(8, 30);  // user
-        outputArea.setEditable(false);
-        b.add(new JScrollPane(outputArea));
+                outputArea.append("Welcome to the Chat Group, " + myName + "\n");
 
-        outputArea.append("Welcome to the Chat Group, " + myName + "\n");
+                inputField = new JTextField("");  // This is where user will type input
+                inputField.addActionListener(this);
 
-        inputField = new JTextField("");  // This is where user will type input
-        inputField.addActionListener(this);
+                prompt = new JLabel("Type your messages below:");
+                Container c = getContentPane();
 
-        prompt = new JLabel("Type your messages below:");
-        Container c = getContentPane();
+                c.add(b, BorderLayout.NORTH);
+                c.add(prompt, BorderLayout.CENTER);
+                c.add(inputField, BorderLayout.SOUTH);
 
-        c.add(b, BorderLayout.NORTH);
-        c.add(prompt, BorderLayout.CENTER);
-        c.add(inputField, BorderLayout.SOUTH);
+                Thread outputThread = new Thread(this);  // Thread is to receive strings
+                outputThread.start();                    // from Server
 
-        Thread outputThread = new Thread(this);  // Thread is to receive strings
-        outputThread.start();                    // from Server
+                addWindowListener(
+                        new WindowAdapter()
+                        {
+                            public void windowClosing(WindowEvent e)
+                            { myWriter.println("CLIENT CLOSING");
+                              System.exit(0);
+                             }
+                        }
+                    );
 
-		addWindowListener(
-                new WindowAdapter()
-                {
-                    public void windowClosing(WindowEvent e)
-                    { myWriter.println("CLIENT CLOSING");
-                      System.exit(0);
-                     }
-                }
-            );
+                setSize(500, 200);
+                setVisible(true);
 
-        setSize(500, 200);
-        setVisible(true);
-
-        }
+            }
         catch (Exception e)
         {
             System.out.println("Problem starting client!");
