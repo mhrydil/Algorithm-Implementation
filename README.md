@@ -10,3 +10,4 @@ Assignment 2: Implemented a hybrid trie that uses multiway trie nodes and DLB no
 
 Assignment 3: Modified the author's LZW program which uses 12 bit codewords for compression. Added in variable length codewords (9 - 16 bits) as well as an option to reset the dictionary when it becomes full (useful for compressing folders with different file types.)
 
+Assignment 4: Basic chat server with encryption. Modify the professor's chat server programs to include RSA encyrption as well as two different types (substitute and additive) symmetric encryption.
