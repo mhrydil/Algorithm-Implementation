@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Add128 implements SymCipher {
 
-    private static byte[] key = new byte[128];
+    private byte[] key = new byte[128];
 
     // initialize the byte array (key) with 128 random ints from 0 - 255
     public Add128(){
@@ -46,10 +46,11 @@ public class Add128 implements SymCipher {
 
     //decode the byte array and return it as a string
     public String decode(byte[] bytes){
+        byte[] bytesToReturn = new byte[bytes.length];
         for(int i=0; i<bytes.length; i++){
-            bytes[i] = (byte) (bytes[i] - key[i % 128]);
+            bytesToReturn[i] = (byte) (bytes[i] - key[i % 128]);
         }
-        return new String(bytes);
+        return new String(bytesToReturn);
     }
 
 //    public static String decodeTest(byte[] bytes){ //for testing purposes

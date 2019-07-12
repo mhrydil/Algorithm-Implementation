@@ -22,7 +22,7 @@ Substitute: This class must implement SymCipher and meet the following specifica
     resulting bytes back to a String.
  */
 
-    private static byte[] key;
+    private byte[] key;
 
     public Substitute(){
         Random r = new Random();
@@ -55,21 +55,22 @@ Substitute: This class must implement SymCipher and meet the following specifica
     }
 
     public String decode(byte[] bytes){
-        byte[] decodedKey = new byte[256];
+        byte[] bytesToReturn = new byte[bytes.length];
+        byte[] decodeArray = new byte[256];
         // key maps elements from index to a random value (eg. A = 65 = random value, so key[65] = someRandomValue
         // decoded key maps elements from index(someRandomValue) to a byte (65) which corresponds to a character (A)
         // since indices can't be negative, the byte value has 128 added to it. So, if the encoded key has the code
         // -114, the value that corresponds with that code is at index 14 (-114 + 128) of the decodedKey array.
-        for (int i=0; i < decodedKey.length; i++){
+        for (int i=0; i < decodeArray.length; i++){
             for (int j=0; j < key.length; j++){
-                if(key[j] + 128 == i) decodedKey[i] = (byte) j; //this is the inverse of the key
+                if(key[j] + 128 == i) decodeArray[i] = (byte) j; //this is the inverse of the key
             }
         }
         for(int i=0; i<bytes.length; i++){
-            bytes[i] = decodedKey[bytes[i]+128];
+            bytesToReturn[i] = decodeArray[bytes[i]+128];
 
         }
-        return new String(bytes);
+        return new String(bytesToReturn);
     }
 
     private void swap(byte[] b, int first, int second){
@@ -78,25 +79,25 @@ Substitute: This class must implement SymCipher and meet the following specifica
         b[second] = temp;
     }
 
-    public static void main(String[] args){ //for testing purposes
-        Substitute sub = new Substitute();
-        for(int i=0; i<key.length; i++){
-            System.out.print(i + ": " + key[i] + " ");
-        }
-        System.out.println();
-
-        String testString = "The quick brown fox jumps over the lazy dog! @#$@#%(&)(*&";
-        System.out.println("Test String: " + testString);
-        byte[] encodedS = sub.encode(testString);
-        System.out.println("Encoded bytes: ");
-        for(int i=0; i<encodedS.length; i++){
-            System.out.print(testString.charAt(i) + ": " + encodedS[i] + " ");
-        }
-        System.out.println();
-        System.out.println("Decoded String: " + sub.decode(encodedS));
-//        Arrays.sort(key);
+//    public static void main(String[] args){ //for testing purposes
+//        Substitute sub = new Substitute();
 //        for(int i=0; i<key.length; i++){
-//            System.out.print(key[i] + " ");
+//            System.out.print(i + ": " + key[i] + " ");
 //        }
-    }
+//        System.out.println();
+//
+//        String testString = "The quick brown fox jumps over the lazy dog! @#$@#%(&)(*&";
+//        System.out.println("Test String: " + testString);
+//        byte[] encodedS = sub.encode(testString);
+//        System.out.println("Encoded bytes: ");
+//        for(int i=0; i<encodedS.length; i++){
+//            System.out.print(testString.charAt(i) + ": " + encodedS[i] + " ");
+//        }
+//        System.out.println();
+//        System.out.println("Decoded String: " + sub.decode(encodedS));
+////        Arrays.sort(key);
+////        for(int i=0; i<key.length; i++){
+////            System.out.print(key[i] + " ");
+////        }
+//    }
 }

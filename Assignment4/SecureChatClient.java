@@ -14,6 +14,7 @@ import java.net.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.math.*;
 
 public class SecureChatClient extends JFrame implements Runnable, ActionListener {
 
@@ -26,6 +27,12 @@ public class SecureChatClient extends JFrame implements Runnable, ActionListener
     JTextField inputField;
     String myName, serverName;
     Socket connection;
+    BigInteger serverE, serverN;
+    String cipherType;
+    BigInteger cipherKey, encryptedKey;
+    SymCipher cipher;
+    ObjectOutputStream outStream;
+    ObjectInputStream inStream;
 
     public SecureChatClient ()
     {
@@ -35,21 +42,50 @@ public class SecureChatClient extends JFrame implements Runnable, ActionListener
             serverName = JOptionPane.showInputDialog(this, "Enter the server name: ");
             InetAddress addr =
                     InetAddress.getByName(serverName);
-            connection = new Socket(addr, PORT);   // Connect to server with new
-            // Socket
-            myReader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream()));   // Get Reader and Writer
+            connection = new Socket(addr, PORT);   // Connect to server with new socket
 
-            myWriter =
-                    new PrintWriter(
-                            new BufferedWriter(
-                                    new OutputStreamWriter(connection.getOutputStream())), true);
+            outStream = new ObjectOutputStream(connection.getOutputStream());
+            outStream.flush();
 
-            myWriter.println(myName);   // Send name to Server.  Server will need
+            inStream = new ObjectInputStream(connection.getInputStream());
+
+            serverE = (BigInteger) inStream.readObject();
+            System.out.println("The server's E: " + serverE);
+            serverN = (BigInteger) inStream.readObject();
+            System.out.println("The server's N: " + serverN);
+            cipherType = (String) inStream.readObject();
+            System.out.println("The server's preferred encryption type: " + cipherType);
+
+            if (cipherType.equals("Add")){
+                cipher = new Add128();
+            }
+            else if (cipherType.equals("Sub")){
+                cipher = new Substitute();
+            }
+
+            cipherKey = new BigInteger(1, cipher.getKey());
+            System.out.println("Symmetric Key: " + cipherKey);
+            encryptedKey = cipherKey.modPow(serverE, serverN); // RSA encrypted version of the key for the cipher
+            outStream.writeObject(encryptedKey);
+            outStream.flush();
+
+
+//            myReader =
+//                    new BufferedReader(
+//                            new InputStreamReader(inStream));   // Get Reader and Writer
+//
+//            myWriter =
+//                    new PrintWriter(
+//                            new BufferedWriter(
+//                                    new OutputStreamWriter(outStream)), true);
+
+
+            // Send name to Server.  Server will need
             // this to announce sign-on and sign-off
             // of clients
+            outStream.writeObject(cipher.encode(myName));
+            outStream.flush();
+
 
             this.setTitle(myName);      // Set title to identify chatter
 
@@ -77,8 +113,16 @@ public class SecureChatClient extends JFrame implements Runnable, ActionListener
                     new WindowAdapter()
                     {
                         public void windowClosing(WindowEvent e)
-                        { myWriter.println("CLIENT CLOSING");
-                            System.exit(0);
+                        {
+                            try {
+                                outStream.writeObject(cipher.encode("CLIENT CLOSING"));
+                                outStream.flush();
+                                //myWriter.println("CLIENT CLOSING");
+                                System.exit(0);
+                            }
+                            catch (Exception e2){
+                                System.out.println(e2 + ": error");
+                            }
                         }
                     }
             );
@@ -98,7 +142,22 @@ public class SecureChatClient extends JFrame implements Runnable, ActionListener
         while (true)
         {
             try {
-                String currMsg = myReader.readLine();
+                byte[] bytesReceived = (byte[])inStream.readObject();
+                System.out.println("Receiving Message:");
+                System.out.println("Bytes Received: ");
+                for(byte b : bytesReceived){
+                    System.out.print(b + " ");
+                }
+                System.out.println();
+                String currMsg = cipher.decode(bytesReceived);
+                System.out.println("Decrypted Bytes: ");
+                for(byte b : currMsg.getBytes()){
+                    System.out.print(b + " ");
+                }
+                System.out.println();
+                System.out.println("Original Message: " + currMsg);
+                System.out.println();
+
                 outputArea.append(currMsg+"\n");
             }
             catch (Exception e)
@@ -112,14 +171,37 @@ public class SecureChatClient extends JFrame implements Runnable, ActionListener
 
     public void actionPerformed(ActionEvent e)
     {
-        String currMsg = e.getActionCommand();      // Get input value
-        inputField.setText("");
-        myWriter.println(myName + ":" + currMsg);   // Add name and send it
+        try {
+            String currMsg = e.getActionCommand();      // Get input value
+            String msgToSend = myName + ":" + currMsg;
+
+            //The following lines of code are what is being sent to the server
+            System.out.println("Sending Message:");
+            System.out.println("Original String: " + msgToSend);
+            System.out.println("Array of bytes: ");
+            for(byte b : msgToSend.getBytes()){
+                System.out.print(b + " ");
+            }
+            System.out.println();
+            System.out.println("Encoded Array of bytes: ");
+            for (byte b : cipher.encode(msgToSend)){
+                System.out.print(b + " ");
+            }
+            System.out.println();
+            System.out.println();
+            inputField.setText("");
+            outStream.writeObject(cipher.encode(msgToSend));
+            outStream.flush();
+            //myWriter.println(myName + ":" + currMsg);   // Add name and send it
+        }
+        catch (Exception e2){
+            System.out.println(e + ", error");
+        }
     }                                               // to Server
 
     public static void main(String [] args)
     {
-        ImprovedChatClient JR = new ImprovedChatClient();
+        SecureChatClient JR = new SecureChatClient();
         JR.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 }
