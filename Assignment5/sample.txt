@@ -1,0 +1,185 @@
+CS 1501 Summer 2019
+Some sample commands and output for Assignment 5
+
+Here are a few example outputs for the two test files for Assignment 5.
+Not all functionality is tested but this should help you to test your
+implementation.
+
+Your output should definitely look BETTER than this!
+
+INPUT FILE: graph1.txt
+-----------------------
+Command R:
+----------
+The network is currently connected
+
+The following nodes are currently up:
+0 1 2 3 4 5
+
+The following nodes are currently down:
+none
+
+The connected components are:
+Component 0:
+
+0: 0-4 5.00  0-2 4.00  0-1 8.00  
+1: 1-5 7.00  0-1 8.00  
+2: 2-4 3.00  0-2 4.00  
+3: 3-5 6.00  3-4 9.00  
+4: 4-5 2.00  3-4 9.00  2-4 3.00  0-4 5.00  
+5: 4-5 2.00  3-5 6.00  1-5 7.00  
+
+Command M:
+----------
+The edges in the MST follow:
+4-5 2.00
+2-4 3.00
+3-5 6.00
+0-2 4.00
+1-5 7.00
+
+Command S 0 5:
+--------------
+Shortest Path from 0 to 5 (7.00)  0->4  5.00   4->5  2.00  
+
+Command S 2 3:
+--------------
+Shortest Path from 2 to 3 (11.00)  2->4  3.00   4->5  2.00   5->3  6.00 
+
+Command P 0 1 10:
+-----------------
+Distinct Paths from 0 to 1 (differing by at least one edge):
+Path 1: Total weight: (8.0)   0-1  8.00
+Total Paths: 1
+
+Command P 0 1 20:
+-----------------
+Distinct Paths from 0 to 1 (differing by at least one edge):
+Path 1: Total weight: (14.0)   0-4  5.00  4-5  2.00  5-1  7.00
+Path 2: Total weight: (16.0)   0-2  4.00  2-4  3.00  4-5  2.00  5-1  7.00
+Path 3: Total weight: (8.0)   0-1  8.00
+Total Paths: 3
+
+Command P 0 1 30:
+-----------------
+Distinct Paths from 0 to 1 (differing by at least one edge):
+Path 1: Total weight: (14.0)   0-4  5.00  4-5  2.00  5-1  7.00
+Path 2: Total weight: (27.0)   0-4  5.00  4-3  9.00  3-5  6.00  5-1  7.00
+Path 3: Total weight: (16.0)   0-2  4.00  2-4  3.00  4-5  2.00  5-1  7.00
+Path 4: Total weight: (29.0)   0-2  4.00  2-4  3.00  4-3  9.00  3-5  6.00  5-1  7.00
+Path 5: Total weight: (8.0)   0-1  8.00
+Total Paths: 5
+
+Command D 4:
+-------------
+Vertex 4 has gone down
+
+Command D 1:
+-------------
+Vertex 1 has gone down
+
+Command R:
+----------
+The network is currently disconnected
+
+The following nodes are currently up:
+0 2 3 5
+
+The following nodes are currently down:
+1 4
+
+The connected components are:
+Component 0:
+0: 0-2  4.00
+2: 2-0  4.00
+
+Component 1:
+3: 3-5  6.00
+5: 5-3  6.00
+
+Command S 0 5:
+--------------
+There is no path from 0 to 5
+
+Command U 1:
+-------------
+Vertex 1 is back online
+
+Command S 0 5:
+--------------
+Shortest Path from 0 to 5 (15.00) 0->1  8.00   1->5  7.00
+
+Command U 4:
+------------
+Vertext 4 is back online
+
+Command S 0 5:
+--------------
+Shortest Path from 0 to 5 (7.00) 0->4  5.00   4->5  2.00
+
+Command C 4 5 11:
+-----------------
+Weight of edge 4->5 changed to 11
+
+Command S 0 5:
+--------------
+Shortest Path from 0 to 5 (15.00) 0->1  8.00   1->5  7.00
+
+
+
+INPUT FILE graph2.txt:
+----------------------
+Command R:
+----------
+The network is currently connected
+
+The following nodes are currently up:
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+
+The following nodes are currently down:
+none
+
+The connected components are:
+Component 0:
+
+0: 0-11 1004.00  0-7 734.00  0-3 545.00  0-2 3965.00  0-1 579.00  
+1: 1-9 4947.00  1-7 887.00  1-6 5982.00  1-3 213.00  1-2 3458.00  1-0 579.00  
+2: 2-12 5297.00  2-10 2132.00  2-8 2451.00  2-7 4281.00  2-3 3624.00  2-1 3458.00  2-0 3965.00  
+3: 3-13 1400.00  3-7 697.00  3-2 3624.00  3-1 213.00  3-0 545.00  
+4: 4-9 3194.00  4-8 5433.00  4-6 1794.00  4-5 4866.00  
+5: 5-6 4584.00  5-4 4866.00  
+6: 6-8 7195.00  6-5 4584.00  6-4 1794.00  6-1 5982.00  
+7: 7-14 1320.00  7-11 1474.00  7-3 697.00  7-2 4281.00  7-1 887.00  7-0 734.00  
+8: 8-12 6916.00  8-6 7195.00  8-4 5433.00  8-2 2451.00  
+9: 9-14 3539.00  9-4 3194.00  9-1 4947.00  
+10: 10-12 3168.00  10-2 2132.00  
+11: 11-13 1091.00  11-7 1474.00  11-0 1004.00  
+12: 12-10 3168.00  12-8 6916.00  12-2 5297.00  
+13: 13-14 768.00  13-11 1091.00  13-3 1400.00  
+14: 14-13 768.00  14-9 3539.00  14-7 1320.00  
+
+Command M:
+---------
+The edges in the MST follow:
+13-14 768.00
+11-13 1091.00
+10-12 3168.00
+0-11 1004.00
+2-10 2132.00
+9-14 3539.00
+2-8 2451.00
+3-7 697.00
+4-6 1794.00
+5-6 4584.00
+4-9 3194.00
+0-3 545.00
+1-2 3458.00
+1-3 213.00
+
+Command S 0 5:
+--------------
+Shortest Path from 0 to 5 (11145.00)  0->1 579.00   1->6 5982.00   6->5 4584.00
+
+Command S 11 4:
+--------------
+Shortest Path from 11 to 4 (8592.00)  11->13 1091.00   13->14 768.00   14->9 3539.00   9->4 3194.00
