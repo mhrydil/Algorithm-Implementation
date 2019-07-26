@@ -70,13 +70,13 @@ public class MyEdgeWeightedDigraph {
 
 
     public void report(){
-        //report whether or not the graph is connected.
-        //System.out.println(this);
 
+        //report whether or not the graph is connected.
         System.out.print("The network is currently ");
         if(this.isConnected()) System.out.println("connected.");
         else System.out.println("disconnected.");
 
+        //Print the active vertices
         System.out.println();
         System.out.println("\033[1mThe following vertices are active: \033[0m");
         if(numActive > 0) {
@@ -85,6 +85,8 @@ public class MyEdgeWeightedDigraph {
             }
         }
         else System.out.println("There are currently no active vertices.");
+
+        //print the inactive vertices
         System.out.println();
         System.out.println();
         System.out.println("\033[1mThe following vertices are inactive: \033[0m"); // '\033[1m' makes it bold '\033[0m' makes it non-bold again
@@ -97,13 +99,10 @@ public class MyEdgeWeightedDigraph {
         else System.out.println("There currently no inactive vertices.");
         System.out.println();
 
+        //print the connected components
         printComps();
-
-
-
-
-
     }
+
 
     public void shortestPath(int i, int j){
         DijkstraSP sp = new DijkstraSP(this, i);
@@ -144,6 +143,26 @@ public class MyEdgeWeightedDigraph {
     }
 
     public void paths(int i, int j, int k){
+        System.out.println("Distinct paths from " + i + " to " + j);
+        int solutionCount = 1;
+        Paths paths = new Paths(this);
+        ArrayList<LinkedList<DirectedEdge>> solutions = paths.findPaths(i, j, k);
+        if (solutions.size() == 0){
+            System.out.println("There are no paths from " + i + " to " + j + " with weight less than or equal to " + k);
+        }
+        for(LinkedList<DirectedEdge> solution : solutions){
+            double solutionWeight = 0;
+            System.out.println("Path " + solutionCount + ": ");
+            for(DirectedEdge edge : solution){
+                System.out.print(edge + " ");
+                solutionWeight+=edge.getWeight();
+            }
+            System.out.println();
+            System.out.println("Path " + solutionCount + " total weight: " + solutionWeight);
+            solutionCount++;
+            System.out.println();
+        }
+
 
     }
 

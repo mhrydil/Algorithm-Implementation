@@ -64,8 +64,8 @@ public class CC {
         System.out.println("\033[1mThe connected components are:\033[0m");
         if(count==0) System.out.println("There are no active vertices.");
         for(int i=0; i<count; i++){
-            System.out.println("Component " + i + ":");
-            System.out.print("Vertices in component " + i + ": ");
+            System.out.println("Component " + (i+1) + ":");
+            System.out.print("Vertices in component " + (i+1) + ": ");
             for(int j=0; j<id.length; j++){
                 if (id[j]==i) System.out.print(j + " "); //prints the vertex if that vertex is a member of CC j
             }
@@ -90,15 +90,15 @@ public class CC {
         if(count == 0) System.out.println("There are no active vertices.");
         for(int i=0; i<count; i++){
             ConnectedComp comp = graphs[i];
-            System.out.println("Component " + i + ":");
-            System.out.println("The vertices in the minimum spanning tree for component " + i + " are:");
+            System.out.println("Component " + (i+1) + ":");
+            System.out.println("The vertices in the minimum spanning tree for component " + (i+1) + " are:");
             for(int j=0; j<id.length; j++){
                 if (id[j]==i) System.out.print(j + " "); //prints the vertex if that vertex is a member of CC j
             }
             System.out.println();
             if (size[i]==1) System.out.println("There are no edges in this spanning tree.");
             else {
-                System.out.println("The edges in the minimum spanning tree for component " + i + " are:");
+                System.out.println("The edges in the minimum spanning tree for component " + (i+1) + " are:");
                 PrimMST mst = new PrimMST(comp);
                 for (DirectedEdge edge : mst.edges()) {
                     System.out.println(edge);

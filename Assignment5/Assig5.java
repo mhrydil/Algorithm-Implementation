@@ -54,7 +54,10 @@ public class Assig5 {
                     myGraph.change(i, j, k);
                 }
             }
-            if (strings[0].equals("Q")) System.exit(0);
+            if (strings[0].equals("Q")){
+                System.out.println("Quitting program.");
+                System.exit(0);
+            }
 
         }
     } //end main
