@@ -85,6 +85,63 @@ public class CC {
         }
     }
 
+    public void printMST(){
+        for(int i=0; i<count; i++){
+            ConnectedComp comp = graphs[i];
+            System.out.println("Component " + i + ":");
+            System.out.println("The vertices in the minimum spanning tree for component " + i + " are:");
+            for(int j=0; j<id.length; j++){
+                if (id[j]==i) System.out.print(j + " "); //prints the vertex if that vertex is a member of CC j
+            }
+            System.out.println();
+            if (size[i]==1) System.out.println("There are no edges in this spanning tree.");
+            else {
+                System.out.println("The edges in the minimum spanning tree for component " + i + " are:");
+                PrimMST mst = new PrimMST(comp);
+                for (DirectedEdge edge : mst.edges()) {
+                    System.out.println(edge);
+                }
+            }
+            System.out.println();
+        }
+
+    }
 
 
+    /*
+    Simple inner class that stores the graph for each connected component
+     */
+    public class ConnectedComp {
+        private int V;
+        private int E;
+        private LinkedList<DirectedEdge>[] neighbors;
+
+        public ConnectedComp(int max){
+            V = max;
+            E = 0;
+            neighbors = (LinkedList<DirectedEdge>[]) new LinkedList[max];
+            for(int i=0; i<max; i++){
+                neighbors[i] = new LinkedList<DirectedEdge>();
+            }
+        }
+
+        public void addEdge(DirectedEdge e){
+            neighbors[e.from()].add(e);
+            E++;
+        }
+
+        public LinkedList<DirectedEdge>[] getNeighbors(){
+            return neighbors;
+        }
+
+        public LinkedList<DirectedEdge> getNeighbors(int v){
+            return neighbors[v];
+        }
+
+        public int getV(){
+            return V;
+        }
+    }
 }
+
+

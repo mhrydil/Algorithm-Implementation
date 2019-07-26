@@ -128,7 +128,8 @@ public class MyEdgeWeightedDigraph {
     }
 
     public void min(){
-
+        CC components = new CC(this);
+        components.printMST();
     }
 
     public void paths(int i, int j, int k){

@@ -46,13 +46,6 @@ public class Assig5 {
             if (strings[0].equals("Q")) System.exit(0);
 
         }
-
-
-
-
-
-
-
     } //end main
 
 
