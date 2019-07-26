@@ -1,6 +1,14 @@
 import java.io.*;
 import java.util.*;
 
+
+/*
+Matthew Hrydil - CS1501 - Summer 2019 - Dr. John Ramirez
+
+This is the main class used to run the program for assignment 5.
+It creates an instance of myGraph, and the while loop manages the flow of commands.
+
+ */
 public class Assig5 {
 
     public static void main(String[] args) throws IOException{

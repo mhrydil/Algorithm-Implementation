@@ -1,6 +1,20 @@
 import java.util.*;
 import java.io.*;
 
+/*
+This class creates a bidirectional graph based on the file entered by the user as an argument. Some of the
+methods in this class use other classes for their functions.
+
+Dependencies:
+Paths.java
+CC.java
+PrimMST.java
+DijkstraSP.java
+IndexMinPQ.java
+DirectedEdge.java
+
+ */
+
 public class MyEdgeWeightedDigraph {
     private final int V;
     private int E;
@@ -144,6 +158,14 @@ public class MyEdgeWeightedDigraph {
 
     public void paths(int i, int j, int k){
         System.out.println("Distinct paths from " + i + " to " + j);
+        if (k < 0){
+            System.out.println("Please enter a positive weight.");
+            return;
+        }
+        if (i > getV() || j > getV()){
+            System.out.println("One or both of the vertices entered is too large.");
+            return;
+        }
         int solutionCount = 1;
         Paths paths = new Paths(this);
         ArrayList<LinkedList<DirectedEdge>> solutions = paths.findPaths(i, j, k);

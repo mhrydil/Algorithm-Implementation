@@ -89,6 +89,7 @@ public class CC {
     public void printMST(){
         if(count == 0) System.out.println("There are no active vertices.");
         for(int i=0; i<count; i++){
+            double compWeight = 0;
             ConnectedComp comp = graphs[i];
             System.out.println("Component " + (i+1) + ":");
             System.out.println("The vertices in the minimum spanning tree for component " + (i+1) + " are:");
@@ -102,7 +103,9 @@ public class CC {
                 PrimMST mst = new PrimMST(comp);
                 for (DirectedEdge edge : mst.edges()) {
                     System.out.println(edge);
+                    compWeight += edge.getWeight();
                 }
+                System.out.println("The total weight of the component is: " + compWeight);
             }
             System.out.println();
         }
