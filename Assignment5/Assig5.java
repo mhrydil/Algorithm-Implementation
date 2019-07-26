@@ -20,28 +20,39 @@ public class Assig5 {
 
             if (strings[0].equals("R")) myGraph.report();
             if (strings[0].equals("S")){
-                int i = Integer.parseInt(strings[1]);
-                int j = Integer.parseInt(strings[2]);
-                myGraph.shortestPath(i, j);
+                if(strings.length != 3) System.out.println("Invalid argument");
+                else {
+                    int i = Integer.parseInt(strings[1]);
+                    int j = Integer.parseInt(strings[2]);
+                    myGraph.shortestPath(i, j);
+                }
             }
             if (strings[0].equals("M")) myGraph.min();
             if (strings[0].equals("P")){
-                int i = Integer.parseInt(strings[1]);
-                int j = Integer.parseInt(strings[2]);
-                int k = Integer.parseInt(strings[3]);
-                myGraph.paths(i, j, k);
+                if (strings.length != 4 ) System.out.println("Invalid argument");
+                else {
+                    int i = Integer.parseInt(strings[1]);
+                    int j = Integer.parseInt(strings[2]);
+                    int k = Integer.parseInt(strings[3]);
+                    myGraph.paths(i, j, k);
+                }
             }
             if (strings[0].equals("D")){
-                myGraph.down(Integer.parseInt(strings[1]));
+                if (strings.length != 2 ) System.out.println("Invalid argument");
+                else myGraph.down(Integer.parseInt(strings[1]));
             }
             if (strings[0].equals("U")){
-                myGraph.up(Integer.parseInt(strings[1]));
+                if (strings.length != 2 ) System.out.println("Invalid argument");
+                else myGraph.up(Integer.parseInt(strings[1]));
             }
             if (strings[0].equals("C")){
-                int i = Integer.parseInt(strings[1]);
-                int j = Integer.parseInt(strings[2]);
-                int k = Integer.parseInt(strings[3]);
-                myGraph.change(i, j, k);
+                if (strings.length != 4 ) System.out.println("Invalid argument");
+                else {
+                    int i = Integer.parseInt(strings[1]);
+                    int j = Integer.parseInt(strings[2]);
+                    int k = Integer.parseInt(strings[3]);
+                    myGraph.change(i, j, k);
+                }
             }
             if (strings[0].equals("Q")) System.exit(0);
 

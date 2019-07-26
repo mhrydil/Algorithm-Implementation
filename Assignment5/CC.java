@@ -62,6 +62,7 @@ public class CC {
 
     public void printComps(){
         System.out.println("\033[1mThe connected components are:\033[0m");
+        if(count==0) System.out.println("There are no active vertices.");
         for(int i=0; i<count; i++){
             System.out.println("Component " + i + ":");
             System.out.print("Vertices in component " + i + ": ");
@@ -86,6 +87,7 @@ public class CC {
     }
 
     public void printMST(){
+        if(count == 0) System.out.println("There are no active vertices.");
         for(int i=0; i<count; i++){
             ConnectedComp comp = graphs[i];
             System.out.println("Component " + i + ":");

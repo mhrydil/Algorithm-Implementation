@@ -78,7 +78,7 @@ public class MyEdgeWeightedDigraph {
         else System.out.println("disconnected.");
 
         System.out.println();
-        System.out.println("The following vertices are active: ");
+        System.out.println("\033[1mThe following vertices are active: \033[0m");
         if(numActive > 0) {
             for (int i = 0; i < active.length; i++) {
                 if (active[i]) System.out.print(i + " ");
@@ -92,6 +92,7 @@ public class MyEdgeWeightedDigraph {
             for (int i = 0; i < active.length; i++) {
                 if (!active[i]) System.out.print(i + " ");
             }
+            System.out.println();
         }
         else System.out.println("There currently no inactive vertices.");
         System.out.println();
@@ -105,7 +106,17 @@ public class MyEdgeWeightedDigraph {
     }
 
     public void shortestPath(int i, int j){
-        System.out.print("i: " + i + "j: " + j);
+        DijkstraSP sp = new DijkstraSP(this, i);
+        if(sp.hasPathTo(j)) {
+            System.out.print("The shortest path from " + i + " to " + j + " is: ");
+            System.out.println(sp.distTo(j));
+            Stack<DirectedEdge> path = sp.pathTo(j);
+            while(!path.empty()){
+                System.out.println(path.pop());
+            }
+            System.out.println();
+        }
+        else System.out.println("There is no path from " + i + " to " + j + ".");
 
     }
 
@@ -244,6 +255,15 @@ public class MyEdgeWeightedDigraph {
             }
         }
         return num;
+    }
+
+    public LinkedList<DirectedEdge> edges(){ //returns all the edges
+        LinkedList<DirectedEdge> edges = new LinkedList<>();
+
+        for (LinkedList<DirectedEdge> neighbor : this.neighbors) {
+            edges.addAll(neighbor);
+        }
+        return edges;
     }
 
 
