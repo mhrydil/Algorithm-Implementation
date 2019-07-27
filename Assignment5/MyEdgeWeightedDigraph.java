@@ -92,7 +92,7 @@ public class MyEdgeWeightedDigraph {
 
         //Print the active vertices
         System.out.println();
-        System.out.println("\033[1mThe following vertices are active: \033[0m");
+        System.out.println("The following vertices are active: ");
         if(numActive > 0) {
             for (int i = 0; i < active.length; i++) {
                 if (active[i]) System.out.print(i + " ");
@@ -103,7 +103,7 @@ public class MyEdgeWeightedDigraph {
         //print the inactive vertices
         System.out.println();
         System.out.println();
-        System.out.println("\033[1mThe following vertices are inactive: \033[0m"); // '\033[1m' makes it bold '\033[0m' makes it non-bold again
+        System.out.println("The following vertices are inactive: "); // '\033[1m' makes it bold '\033[0m' makes it non-bold again
         if(numActive < V) {
             for (int i = 0; i < active.length; i++) {
                 if (!active[i]) System.out.print(i + " ");
@@ -184,6 +184,7 @@ public class MyEdgeWeightedDigraph {
             solutionCount++;
             System.out.println();
         }
+        System.out.println("Total Solutions: " + (solutionCount-1));
 
 
     }
@@ -252,6 +253,7 @@ public class MyEdgeWeightedDigraph {
         return components.isConnected();
     }
 
+    //calls the printComps() method of CC
     public void printComps() {
         CC components = new CC(this);
         components.printComps();
@@ -270,6 +272,8 @@ public class MyEdgeWeightedDigraph {
         return E;
     }
 
+
+    // returns true if the graph contains edge i->v
     private boolean containsEdge(int i, int v){
         boolean found = false;
         for (DirectedEdge edge : neighbors(i)){
@@ -282,10 +286,12 @@ public class MyEdgeWeightedDigraph {
         return found;
     }
 
+    //returns true if the vertex v is active, false otherwise
     public boolean isActive(int v){
         return active[v];
     }
 
+    // returns the number of active edges in the graph
     private int getNumActiveEdges(){
         int num = 0;
         for(int i=0; i<V; i++){
@@ -298,6 +304,7 @@ public class MyEdgeWeightedDigraph {
         return num;
     }
 
+    //returns all of the edges in the graph
     public LinkedList<DirectedEdge> edges(){ //returns all the edges
         LinkedList<DirectedEdge> edges = new LinkedList<>();
 

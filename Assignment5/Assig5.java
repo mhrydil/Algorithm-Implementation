@@ -19,6 +19,10 @@ public class Assig5 {
         Scanner file = new Scanner(new FileReader(args[0]));
         Scanner input = new Scanner(System.in);
         MyEdgeWeightedDigraph myGraph = new MyEdgeWeightedDigraph(file);
+        System.out.println("Ready!");
+        System.out.println("-----------------------------");
+
+
 
         while(true){
             String option = input.nextLine();
