@@ -1,6 +1,5 @@
-# CS1501-Assignments
-
-Github repository for CS1501 with Dr. John Ramirez, Summer 2019 at University of Pittsburgh
+# Algorithm Implementation
+Github repository for Algorithm Implementation with Dr. Ramirez, Summer 2019 at University of Pittsburgh
 
 
 **Assignment 1:** Anagram finder, finds all single/multiple word anagrams of a 
